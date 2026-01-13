@@ -1,0 +1,14 @@
+﻿<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  @for (subcategory of subcategories; track subcategory.id) {
+    <button
+      class="card bg-base-100 border border-base-200 hover:border-primary/60 transition text-left"
+      type="button"
+      (click)="selectSubcategory.emit(subcategory)"
+    >
+      <div class="card-body">
+        <h3 class="card-title">{{ subcategory.name }}</h3>
+        <p class="text-sm text-base-content/70">Ver productos</p>
+      </div>
+    </button>
+  }
+</div>

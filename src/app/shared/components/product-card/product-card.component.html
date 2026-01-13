@@ -1,0 +1,48 @@
+﻿<div class="card bg-base-100 shadow-sm border border-base-200 h-full">
+  <figure class="h-48 bg-base-200/60">
+    <img
+      [src]="product.main_image_path"
+      [alt]="product.title"
+      class="w-full h-full object-contain p-4"
+      loading="lazy"
+    />
+  </figure>
+  <div class="card-body gap-3">
+    <div>
+      <h3 class="font-semibold text-base line-clamp-2">{{ product.title }}</h3>
+      <p class="text-xs text-base-content/70">
+        {{ product.category_name || 'Sin categoria' }}
+        @if (product.subcategory_name) {
+          - {{ product.subcategory_name }}
+        }
+        @if (product.brand_name) {
+          - {{ product.brand_name }}
+        }
+      </p>
+    </div>
+    <div class="flex items-center justify-between">
+      <span class="text-lg font-semibold text-primary">
+        {{ product.currency || '' }} {{ product.price | number: '1.0-0' }}
+      </span>
+      <div class="flex gap-2">
+        <a
+          class="btn btn-sm btn-outline"
+          [routerLink]="['/products', product.id]"
+          queryParamsHandling="preserve"
+          aria-label="Ver detalle"
+        >
+          <lucide-icon [img]="icons.Eye" class="w-4 h-4" />
+        </a>
+        <a
+          class="btn btn-sm btn-success text-white"
+          [href]="whatsappLink()"
+          target="_blank"
+          rel="noopener"
+          aria-label="Consultar por WhatsApp"
+        >
+          <lucide-icon [img]="icons.MessageCircle" class="w-4 h-4" />
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

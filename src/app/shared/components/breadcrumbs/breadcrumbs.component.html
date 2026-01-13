@@ -1,0 +1,16 @@
+﻿<nav class="text-sm breadcrumbs" aria-label="Breadcrumb">
+  <ul>
+    @for (item of items; track item.label) {
+      <li class="flex items-center gap-2">
+        @if (item.url) {
+          <a [routerLink]="item.url" class="link link-hover">{{ item.label }}</a>
+        } @else {
+          <span class="font-semibold">{{ item.label }}</span>
+        }
+        @if (item !== items[items.length - 1]) {
+          <lucide-icon [img]="icons.ChevronRight" class="w-4 h-4 opacity-60" />
+        }
+      </li>
+    }
+  </ul>
+</nav>

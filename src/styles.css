@@ -1,4 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
-
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Outfit:wght@500;700&display=swap');
 @import "tailwindcss";
 @plugin "daisyui";
+
+:root {
+  --brand-blue: #4C8FBB;
+  --brand-green: #79B27E;
+  --p: 204 45% 52%;
+  --s: 125 27% 59%;
+  --a: 204 45% 35%;
+}
+
+body {
+  font-family: 'Manrope', 'Outfit', sans-serif;
+  background: radial-gradient(circle at top, #edf5fb 0%, #ffffff 45%, #f4fbf6 100%);
+}
+
+[data-theme="light"] {
+  --b1: 0 0% 100%;
+  --b2: 210 25% 96%;
+  --b3: 210 18% 92%;
+  --bc: 220 18% 20%;
+}
+
+.btn-primary {
+  color: white;
+}

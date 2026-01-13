@@ -1,0 +1,40 @@
+﻿<div class="space-y-3">
+  <div class="relative bg-base-200/60 rounded-xl h-80 flex items-center justify-center">
+    <img
+      [src]="currentImage()"
+      alt="Imagen del producto"
+      class="w-full h-full object-contain p-6"
+    />
+    <button
+      class="btn btn-circle btn-sm absolute left-3"
+      type="button"
+      (click)="prev()"
+      [disabled]="images.length <= 1 || index() === 0"
+      aria-label="Imagen anterior"
+    >
+      <lucide-icon [img]="icons.ChevronLeft" class="w-4 h-4" />
+    </button>
+    <button
+      class="btn btn-circle btn-sm absolute right-3"
+      type="button"
+      (click)="next()"
+      [disabled]="images.length <= 1 || index() === images.length - 1"
+      aria-label="Imagen siguiente"
+    >
+      <lucide-icon [img]="icons.ChevronRight" class="w-4 h-4" />
+    </button>
+  </div>
+  <div class="flex gap-2 overflow-x-auto">
+    @for (image of images; track $index) {
+      <button
+        class="h-16 w-16 rounded-lg border border-base-200 bg-base-100 flex-shrink-0"
+        type="button"
+        [class.border-primary]="$index === index()"
+        (click)="select($index)"
+        aria-label="Seleccionar imagen"
+      >
+        <img [src]="image" alt="Thumbnail" class="w-full h-full object-contain p-2" />
+      </button>
+    }
+  </div>
+</div>

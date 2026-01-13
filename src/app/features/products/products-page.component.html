@@ -1,0 +1,90 @@
+﻿<section class="max-w-6xl mx-auto px-4 py-6 space-y-6">
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-semibold">Catalogo All-In Store</h1>
+      <p class="text-base-content/70">
+        Explora categorias, subcategorias y productos importados con filtros rapidos.
+      </p>
+    </div>
+    @if (viewMode() === 'subcategories') {
+      <button class="btn btn-ghost" type="button" (click)="backToCategories()">Volver</button>
+    }
+    @if (viewMode() === 'products' && filters().subcategoryId) {
+      <button class="btn btn-ghost" type="button" (click)="backToSubcategories()">Volver</button>
+    }
+  </div>
+
+  @if (showBreadcrumbs()) {
+    <app-breadcrumbs [items]="breadcrumbs()" />
+  }
+
+  @if (viewMode() === 'categories') {
+    @if (categoriesLoading()) {
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        @for (item of skeletonItems; track $index) {
+          <div class="skeleton h-28 rounded-xl"></div>
+        }
+      </div>
+    } @else if (categoriesError()) {
+      <div class="alert alert-error">{{ categoriesError() }}</div>
+    } @else {
+      <app-category-cards
+        [categories]="categories()"
+        (selectCategory)="selectCategory($event)"
+        (viewAll)="viewAllProducts()"
+      />
+    }
+  } @else if (viewMode() === 'subcategories') {
+    @if (subcategoriesLoading()) {
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        @for (item of skeletonItems; track $index) {
+          <div class="skeleton h-28 rounded-xl"></div>
+        }
+      </div>
+    } @else {
+      <app-subcategory-cards
+        [subcategories]="subcategories()"
+        (selectSubcategory)="selectSubcategory($event)"
+      />
+    }
+  } @else {
+    <app-filters-bar
+      [categories]="categories()"
+      [subcategories]="subcategories()"
+      [filters]="filters()"
+      (updateFilters)="updateFilters($event)"
+    />
+
+    @if (filters().query) {
+      <div class="flex items-center justify-between bg-base-200/60 p-3 rounded-xl">
+        <p class="text-sm">
+          Resultados para <span class="font-semibold">"{{ filters().query }}"</span>
+        </p>
+        <button class="btn btn-xs btn-ghost" type="button" (click)="clearSearch()">Limpiar</button>
+      </div>
+    }
+
+    @if (productsLoading()) {
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+        @for (item of skeletonItems; track $index) {
+          <div class="skeleton h-72 rounded-xl"></div>
+        }
+      </div>
+    } @else if (productsError()) {
+      <div class="alert alert-error">{{ productsError() }}</div>
+    } @else if (products().length === 0) {
+      <div class="alert alert-info">No encontramos productos con esos filtros.</div>
+    } @else {
+      <app-products-grid [products]="products()" />
+
+      <div class="pt-4">
+        <app-paginator
+          [page]="filters().page"
+          [pageSize]="20"
+          [total]="totalCount()"
+          (pageChange)="changePage($event)"
+        />
+      </div>
+    }
+  }
+</section>

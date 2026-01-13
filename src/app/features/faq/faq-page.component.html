@@ -1,0 +1,30 @@
+﻿<section class="max-w-4xl mx-auto px-4 py-6 space-y-6">
+  <div>
+    <h1 class="text-2xl font-semibold">Preguntas frecuentes</h1>
+    <p class="text-base-content/70">Resolvemos las dudas mas comunes sobre compras y envios.</p>
+  </div>
+
+  @if (loading()) {
+    <div class="space-y-3">
+      <div class="skeleton h-16 rounded-xl"></div>
+      <div class="skeleton h-16 rounded-xl"></div>
+      <div class="skeleton h-16 rounded-xl"></div>
+    </div>
+  } @else if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  } @else if (items().length === 0) {
+    <div class="alert alert-info">No hay FAQs cargadas por ahora.</div>
+  } @else {
+    <div class="space-y-3">
+      @for (item of items(); track item.id) {
+        <div class="collapse collapse-arrow bg-base-100 border border-base-200">
+          <input type="radio" name="faq-accordion" />
+          <div class="collapse-title text-lg font-medium">{{ item.question }}</div>
+          <div class="collapse-content text-base-content/70">
+            <p>{{ item.answer }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</section>

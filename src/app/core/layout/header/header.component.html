@@ -1,0 +1,75 @@
+﻿<header class="sticky top-0 z-30 bg-base-100/90 backdrop-blur border-b border-base-200">
+  <div class="navbar max-w-6xl mx-auto px-4">
+    <div class="navbar-start gap-3">
+      <button
+        class="btn btn-ghost btn-circle lg:hidden"
+        type="button"
+        (click)="toggleMenu()"
+        aria-label="Abrir menu"
+      >
+        <lucide-icon [img]="menuOpen() ? icons.X : icons.Menu" class="w-5 h-5" />
+      </button>
+      <a class="flex items-center gap-3" routerLink="/products" (click)="closeMenu()">
+        <img
+          src="/images/logo.png"
+          alt="All-In Store"
+          class="h-10 w-auto object-contain"
+        />
+        <span class="hidden sm:inline text-lg font-semibold tracking-tight">All-In Store</span>
+      </a>
+    </div>
+
+    <div class="navbar-center hidden lg:flex">
+      <ul class="menu menu-horizontal px-1 gap-2">
+        <li>
+          <a routerLink="/products" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Productos</a>
+        </li>
+        <li>
+          <a routerLink="/faq" routerLinkActive="active">FAQ</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="navbar-end hidden lg:flex">
+      <label class="input input-bordered flex items-center gap-2 w-80">
+        <lucide-icon [img]="icons.Search" class="w-4 h-4 text-base-content/70" />
+        <input
+          type="text"
+          class="grow"
+          [formControl]="searchControl"
+          placeholder="Buscar productos..."
+          (keyup.enter)="submitSearch()"
+          aria-label="Buscar productos"
+        />
+        <button type="button" class="btn btn-ghost btn-sm" (click)="submitSearch()" aria-label="Ejecutar busqueda">
+          <lucide-icon [img]="icons.Search" class="w-4 h-4" />
+        </button>
+      </label>
+    </div>
+  </div>
+
+  @if (menuOpen()) {
+    <div class="lg:hidden border-t border-base-200">
+      <div class="px-4 py-4 flex flex-col gap-4">
+        <nav class="flex flex-col gap-2">
+          <a class="btn btn-ghost justify-start" routerLink="/products" (click)="closeMenu()">Productos</a>
+          <a class="btn btn-ghost justify-start" routerLink="/faq" (click)="closeMenu()">FAQ</a>
+        </nav>
+        <label class="input input-bordered flex items-center gap-2 w-full">
+          <lucide-icon [img]="icons.Search" class="w-4 h-4 text-base-content/70" />
+          <input
+            type="text"
+            class="grow"
+            [formControl]="searchControl"
+            placeholder="Buscar productos..."
+            (keyup.enter)="submitSearch()"
+            aria-label="Buscar productos"
+          />
+          <button type="button" class="btn btn-ghost btn-sm" (click)="submitSearch()" aria-label="Ejecutar busqueda">
+            <lucide-icon [img]="icons.Search" class="w-4 h-4" />
+          </button>
+        </label>
+      </div>
+    </div>
+  }
+</header>

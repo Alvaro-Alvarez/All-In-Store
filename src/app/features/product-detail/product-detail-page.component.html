@@ -1,0 +1,91 @@
+﻿<section class="max-w-6xl mx-auto px-4 py-6 space-y-6">
+  <app-toast [message]="toastMessage()" [visible]="toastVisible()" />
+
+  <a class="btn btn-ghost" [routerLink]="backLink">Volver</a>
+
+  <app-breadcrumbs [items]="breadcrumbs()" />
+
+  @if (loading()) {
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="skeleton h-96 rounded-xl"></div>
+      <div class="space-y-4">
+        <div class="skeleton h-10 w-3/4"></div>
+        <div class="skeleton h-6 w-1/2"></div>
+        <div class="skeleton h-6 w-2/3"></div>
+        <div class="skeleton h-12 w-full"></div>
+      </div>
+    </div>
+  } @else if (error()) {
+    <div class="alert alert-error">{{ error() }}</div>
+  } @else if (product()) {
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <app-gallery [images]="images()" />
+      <div class="space-y-4">
+        <div>
+          <h1 class="text-2xl font-semibold">{{ product()?.title }}</h1>
+          <p class="text-base-content/70">
+            {{ product()?.category_name || 'Sin categoria' }}
+            @if (product()?.subcategory_name) {
+              - {{ product()?.subcategory_name }}
+            }
+            @if (product()?.brand_name) {
+              - {{ product()?.brand_name }}
+            }
+          </p>
+        </div>
+
+        <div class="text-3xl font-semibold text-primary">
+          {{ product()?.currency || '' }} {{ product()?.price | number: '1.0-0' }}
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+          <div class="badge badge-outline">Importado: {{ product()?.is_imported ? 'Si' : 'No' }}</div>
+          @if (product()?.min_purchase_qty) {
+            <div class="badge badge-outline">
+              Minimo de compra: {{ product()?.min_purchase_qty }}
+            </div>
+          }
+        </div>
+
+        <div class="space-y-2 text-sm">
+          <div>
+            <h3 class="font-semibold">Metodos de envio</h3>
+            <ul class="list-disc list-inside text-base-content/70">
+              <li>Envios a todo el pais</li>
+              <li>Retiro coordinado en tienda</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold">Metodos de pago</h3>
+            <ul class="list-disc list-inside text-base-content/70">
+              <li>Transferencia bancaria</li>
+              <li>Pago en efectivo al retirar</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a
+            class="btn btn-success text-white flex-1"
+            [href]="whatsappLink()"
+            target="_blank"
+            rel="noopener"
+          >
+            <lucide-icon [img]="icons.MessageCircle" class="w-5 h-5" />
+            Consultar por WhatsApp
+          </a>
+          <button class="btn btn-outline" type="button" (click)="shareLink()">
+            <lucide-icon [img]="icons.Share2" class="w-5 h-5" />
+            Compartir
+          </button>
+        </div>
+
+        @if (product()?.description) {
+          <div class="pt-2 text-base-content/80">
+            {{ product()?.description }}
+          </div>
+        }
+      </div>
+    </div>
+  }
+</section>
