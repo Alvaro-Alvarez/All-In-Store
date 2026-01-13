@@ -3,8 +3,13 @@
 @plugin "daisyui";
 
 :root {
-  --brand-blue: #4C8FBB;
-  --brand-green: #79B27E;
+  --brand-blue: #4b7fa6;
+  --brand-blue-mid: #3f6f94;
+  --brand-blue-dark: #2f5166;
+  --brand-blue-soft: #eaf1f7;
+  --brand-blue-border: #c5d3df;
+  --brand-green: #79b27e;
+  --brand-green-dark: #679b6c;
   --p: 204 45% 52%;
   --s: 125 27% 59%;
   --a: 204 45% 35%;
@@ -28,4 +33,113 @@ main {
 
 .btn-primary {
   color: white;
+}
+
+.site-header {
+  background: linear-gradient(180deg, var(--brand-blue) 0%, var(--brand-blue-mid) 100%);
+  color: #f2f6f9;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 18px rgba(24, 44, 62, 0.25);
+}
+
+.site-header .menu a {
+  color: #f2f6f9;
+}
+
+.site-header .menu a.active {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.site-header .btn-ghost {
+  color: #f2f6f9;
+}
+
+.site-header .btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.site-header-panel {
+  background: var(--brand-blue-mid);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.site-footer {
+  background: var(--brand-blue-dark);
+  color: #d6e2ec;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.site-footer .link {
+  color: #d6e2ec;
+}
+
+.site-footer .link:hover {
+  color: #ffffff;
+}
+
+.input,
+.input-bordered {
+  border-radius: 9999px;
+  background: var(--brand-blue-soft);
+  border: 1px solid var(--brand-blue-border);
+}
+
+.input input {
+  color: #2b3d4f;
+}
+
+.input input::placeholder {
+  color: #7a92a5;
+}
+
+.input:focus-within {
+  border-color: #88a7bf;
+  box-shadow: 0 0 0 3px rgba(76, 143, 187, 0.2);
+}
+
+.btn {
+  border-radius: 9999px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  text-transform: none;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, var(--brand-blue) 0%, var(--brand-blue-mid) 100%);
+  border: 1px solid var(--brand-blue-mid);
+  box-shadow: 0 8px 16px rgba(63, 111, 148, 0.28);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(180deg, #5588ae 0%, #3b6484 100%);
+}
+
+.btn-outline {
+  border-color: var(--brand-blue-border);
+  color: var(--brand-blue-mid);
+  background: #ffffff;
+}
+
+.btn-outline:hover {
+  background: #f0f6fb;
+  border-color: #9ab3c8;
+}
+
+.btn-ghost {
+  color: var(--brand-blue-mid);
+}
+
+.btn-ghost:hover {
+  background: rgba(75, 127, 166, 0.12);
+}
+
+.btn-success {
+  background: linear-gradient(180deg, var(--brand-green) 0%, var(--brand-green-dark) 100%);
+  border: 1px solid var(--brand-green-dark);
+  color: #ffffff;
+  box-shadow: 0 8px 16px rgba(103, 155, 108, 0.25);
+}
+
+.btn-success:hover {
+  background: linear-gradient(180deg, #86bd8b 0%, #5f8f66 100%);
 }

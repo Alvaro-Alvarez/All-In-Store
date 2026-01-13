@@ -1,4 +1,4 @@
-﻿<header class="sticky top-0 z-30 bg-gradient-to-r from-[#4C8FBB]/35 via-white to-[#79B27E]/35 backdrop-blur border-b border-[#4C8FBB]/30 shadow-sm">
+﻿<header class="site-header sticky top-0 z-30">
   <div class="navbar max-w-6xl mx-auto px-4">
     <div class="navbar-start gap-3">
       <button
@@ -30,7 +30,7 @@
     </div>
 
     <div class="navbar-end hidden lg:flex">
-      <label class="input input-bordered flex items-center gap-2 w-80 bg-white/80 border-[#4C8FBB]/30">
+      <label class="input input-bordered flex items-center gap-2 w-80">
         <lucide-icon [img]="icons.Search" class="w-4 h-4 text-base-content/70" />
         <input
           type="text"
@@ -48,13 +48,13 @@
   </div>
 
   @if (menuOpen()) {
-    <div class="lg:hidden border-t border-[#4C8FBB]/30 bg-white/70">
+    <div class="site-header-panel lg:hidden">
       <div class="px-4 py-4 flex flex-col gap-4">
         <nav class="flex flex-col gap-2">
           <a class="btn btn-ghost justify-start" routerLink="/products" (click)="closeMenu()">Productos</a>
           <a class="btn btn-ghost justify-start" routerLink="/faq" (click)="closeMenu()">FAQ</a>
         </nav>
-        <label class="input input-bordered flex items-center gap-2 w-full bg-white/80 border-[#4C8FBB]/30">
+        <label class="input input-bordered flex items-center gap-2 w-full">
           <lucide-icon [img]="icons.Search" class="w-4 h-4 text-base-content/70" />
           <input
             type="text"
