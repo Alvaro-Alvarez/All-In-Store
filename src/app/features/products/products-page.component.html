@@ -1,16 +1,16 @@
 ﻿<section class="max-w-6xl mx-auto px-4 py-6 space-y-6">
   <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
     <div>
-      <h1 class="text-2xl font-semibold">Catalogo All-In Store</h1>
+      <h1 class="text-2xl font-semibold">Catalogo</h1>
       <p class="text-base-content/70">
-        Explora categorias, subcategorias y productos importados con filtros rapidos.
+        Explora las categorias y subcategorias de nuestros productos.
       </p>
     </div>
     @if (viewMode() === 'subcategories') {
-      <button class="btn btn-ghost" type="button" (click)="backToCategories()">Volver</button>
+      <button class="btn btn-ghost btn-ghost-outline" type="button" (click)="backToCategories()">Volver</button>
     }
     @if (viewMode() === 'products' && filters().subcategoryId) {
-      <button class="btn btn-ghost" type="button" (click)="backToSubcategories()">Volver</button>
+      <button class="btn btn-ghost btn-ghost-outline" type="button" (click)="backToSubcategories()">Volver</button>
     }
   </div>
 
@@ -49,6 +49,7 @@
     }
   } @else {
     <app-filters-bar
+      class="filters-block"
       [categories]="categories()"
       [subcategories]="subcategories()"
       [filters]="filters()"
@@ -77,7 +78,7 @@
     } @else {
       <app-products-grid [products]="products()" />
 
-      <div class="pt-4">
+      <div class="pt-6">
         <app-paginator
           [page]="filters().page"
           [pageSize]="20"

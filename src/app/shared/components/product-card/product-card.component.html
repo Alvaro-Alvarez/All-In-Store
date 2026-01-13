@@ -32,20 +32,22 @@
       </span>
       <div class="flex gap-2">
         <a
-          class="btn btn-sm btn-outline"
+          class="btn btn-sm btn-outline tooltip-pill"
           [routerLink]="['/products', product.id]"
           queryParamsHandling="preserve"
           aria-label="Ver detalle"
+          data-tooltip="Ver detalle"
           (click)="$event.stopPropagation()"
         >
           <lucide-icon [img]="icons.Eye" class="w-4 h-4" />
         </a>
         <a
-          class="btn btn-sm btn-success text-white"
+          class="btn btn-sm btn-success text-white tooltip-pill"
           [href]="whatsappLink()"
           target="_blank"
           rel="noopener"
           aria-label="Consultar por WhatsApp"
+          data-tooltip="Hablar por Whatsapp"
           (click)="$event.stopPropagation()"
         >
           <svg viewBox="0 0 32 32" aria-hidden="true" class="w-4 h-4">

@@ -1,7 +1,7 @@
 ﻿<section class="max-w-6xl mx-auto px-4 py-6 space-y-6">
   <app-toast [message]="toastMessage()" [visible]="toastVisible()" />
 
-  <a class="btn btn-ghost" [routerLink]="backLink">Volver</a>
+  <a class="btn btn-ghost btn-ghost-outline" [routerLink]="backLink">Volver</a>
 
   <app-breadcrumbs [items]="breadcrumbs()" class="mb-4 block" />
 
@@ -66,7 +66,7 @@
 
         <div class="flex flex-col sm:flex-row gap-3">
           <a
-            class="btn btn-success text-white flex-1"
+            class="btn btn-success text-white flex-1 btn-whatsapp"
             [href]="whatsappLink()"
             target="_blank"
             rel="noopener"

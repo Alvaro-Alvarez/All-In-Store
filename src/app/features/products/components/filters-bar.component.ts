@@ -1,5 +1,7 @@
 ﻿import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { LucideAngularModule } from 'lucide-angular';
+import { icons } from 'lucide-angular/src/icons';
 import { Category } from '../../../core/models/category.model';
 import { Subcategory } from '../../../core/models/subcategory.model';
 import { ProductSort } from '../../../core/services/catalog.service';
@@ -19,7 +21,7 @@ export interface ProductsFiltersState {
 @Component({
   selector: 'app-filters-bar',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, LucideAngularModule],
   templateUrl: './filters-bar.component.html',
   styleUrl: './filters-bar.component.css'
 })
@@ -32,6 +34,7 @@ export class FiltersBarComponent implements OnChanges {
 
   readonly minInput = signal<number | null>(null);
   readonly maxInput = signal<number | null>(null);
+  readonly icons = icons;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filters']) {

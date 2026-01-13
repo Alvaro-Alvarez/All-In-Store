@@ -13,7 +13,7 @@
         <img
           src="/images/logo.png"
           alt="All-In Store"
-          class="h-12 sm:h-14 w-auto object-contain"
+          class="site-logo h-12 sm:h-14 w-auto object-contain"
         />
       </a>
     </div>
@@ -31,7 +31,6 @@
 
     <div class="navbar-end hidden lg:flex">
       <label class="input input-bordered flex items-center gap-2 w-80">
-        <lucide-icon [img]="icons.Search" class="w-4 h-4 text-base-content/70" />
         <input
           type="text"
           class="grow"
@@ -41,7 +40,7 @@
           aria-label="Buscar productos"
         />
         <button type="button" class="btn btn-ghost btn-sm" (click)="submitSearch()" aria-label="Ejecutar busqueda">
-          <lucide-icon [img]="icons.Search" class="w-4 h-4" />
+          <lucide-icon [img]="icons.Search" class="w-4 h-4 text-black" />
         </button>
       </label>
     </div>
@@ -50,12 +49,11 @@
   @if (menuOpen()) {
     <div class="site-header-panel lg:hidden">
       <div class="px-4 py-4 flex flex-col gap-4">
-        <nav class="flex flex-col gap-2">
-          <a class="btn btn-ghost justify-start" routerLink="/products" (click)="closeMenu()">Productos</a>
-          <a class="btn btn-ghost justify-start" routerLink="/faq" (click)="closeMenu()">FAQ</a>
+        <nav class="flex flex-col gap-2 items-center">
+          <a class="btn btn-ghost justify-center" routerLink="/products" (click)="closeMenu()">Productos</a>
+          <a class="btn btn-ghost justify-center" routerLink="/faq" (click)="closeMenu()">FAQ</a>
         </nav>
         <label class="input input-bordered flex items-center gap-2 w-full">
-          <lucide-icon [img]="icons.Search" class="w-4 h-4 text-base-content/70" />
           <input
             type="text"
             class="grow"
@@ -65,7 +63,7 @@
             aria-label="Buscar productos"
           />
           <button type="button" class="btn btn-ghost btn-sm" (click)="submitSearch()" aria-label="Ejecutar busqueda">
-            <lucide-icon [img]="icons.Search" class="w-4 h-4" />
+            <lucide-icon [img]="icons.Search" class="w-4 h-4 text-black" />
           </button>
         </label>
       </div>

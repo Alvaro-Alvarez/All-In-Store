@@ -1,1 +1,4 @@
 ﻿
+.toast-layer {
+  z-index: 9999;
+}
