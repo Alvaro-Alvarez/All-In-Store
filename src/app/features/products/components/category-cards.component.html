@@ -1,6 +1,6 @@
 ﻿<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
   <button
-    class="card bg-base-100 border border-dashed border-primary/40 hover:border-primary transition"
+    class="card bg-base-100 border border-dashed border-primary/40 hover:border-primary transition shadow-sm hover:shadow-md cursor-pointer"
     type="button"
     (click)="viewAll.emit()"
   >
@@ -11,7 +11,7 @@
   </button>
   @for (category of categories; track category.id) {
     <button
-      class="card bg-base-100 border border-base-200 hover:border-primary/60 transition text-left"
+      class="card bg-base-100 border border-base-200 hover:border-primary/60 transition text-left shadow-sm hover:shadow-md cursor-pointer"
       type="button"
       (click)="selectCategory.emit(category)"
     >

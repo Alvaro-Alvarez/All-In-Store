@@ -5,6 +5,7 @@ import { LucideAngularModule, Share2, MessageCircle } from 'lucide-angular';
 import { CatalogService } from '../../core/services/catalog.service';
 import { ProductListItem } from '../../core/models/product.model';
 import { ProductImage } from '../../core/models/product-image.model';
+import { resolvePublicImage } from '../../core/utils/image.util';
 import { buildWhatsAppLink } from '../../core/utils/whatsapp.util';
 import { BreadcrumbsComponent, BreadcrumbItem } from '../../shared/components/breadcrumbs/breadcrumbs.component';
 import { ToastComponent } from '../../shared/components/toast/toast.component';
@@ -140,7 +141,9 @@ export class ProductDetailPageComponent {
 
   mergeImages(mainImage: string, images: ProductImage[]): string[] {
     const sorted = [...images].sort((a, b) => a.sort_order - b.sort_order);
-    return [mainImage, ...sorted.map((image) => image.image_path)].filter(Boolean);
+    return [mainImage, ...sorted.map((image) => image.image_path)]
+      .map((path) => resolvePublicImage(path))
+      .filter(Boolean);
   }
 
   async shareLink(): Promise<void> {

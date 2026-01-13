@@ -1,7 +1,13 @@
-﻿<div class="card bg-base-100 shadow-sm border border-base-200 h-full">
+﻿<div
+  class="card bg-base-100 shadow-sm border border-base-200 h-full cursor-pointer transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-md"
+  role="button"
+  tabindex="0"
+  (click)="goToDetail()"
+  (keyup.enter)="goToDetail()"
+>
   <figure class="h-48 bg-base-200/60">
     <img
-      [src]="product.main_image_path"
+      [src]="imageUrl()"
       [alt]="product.title"
       class="w-full h-full object-contain p-4"
       loading="lazy"
@@ -30,6 +36,7 @@
           [routerLink]="['/products', product.id]"
           queryParamsHandling="preserve"
           aria-label="Ver detalle"
+          (click)="$event.stopPropagation()"
         >
           <lucide-icon [img]="icons.Eye" class="w-4 h-4" />
         </a>
@@ -39,6 +46,7 @@
           target="_blank"
           rel="noopener"
           aria-label="Consultar por WhatsApp"
+          (click)="$event.stopPropagation()"
         >
           <lucide-icon [img]="icons.MessageCircle" class="w-4 h-4" />
         </a>

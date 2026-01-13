@@ -12,7 +12,7 @@
 
 body {
   font-family: 'Manrope', 'Outfit', sans-serif;
-  background: radial-gradient(circle at top, #edf5fb 0%, #ffffff 45%, #f4fbf6 100%);
+  background: radial-gradient(circle at top, #e3f1fb 0%, #f5f9fd 35%, #eff7f1 100%);
 }
 
 [data-theme="light"] {
@@ -20,6 +20,10 @@ body {
   --b2: 210 25% 96%;
   --b3: 210 18% 92%;
   --bc: 220 18% 20%;
+}
+
+main {
+  background: linear-gradient(180deg, rgba(76, 143, 187, 0.08) 0%, rgba(255, 255, 255, 0) 40%);
 }
 
 .btn-primary {

@@ -1,4 +1,4 @@
-﻿<header class="sticky top-0 z-30 bg-base-100/90 backdrop-blur border-b border-base-200">
+﻿<header class="sticky top-0 z-30 bg-gradient-to-r from-[#4C8FBB]/35 via-white to-[#79B27E]/35 backdrop-blur border-b border-[#4C8FBB]/30 shadow-sm">
   <div class="navbar max-w-6xl mx-auto px-4">
     <div class="navbar-start gap-3">
       <button
@@ -13,14 +13,13 @@
         <img
           src="/images/logo.png"
           alt="All-In Store"
-          class="h-10 w-auto object-contain"
+          class="h-12 sm:h-14 w-auto object-contain"
         />
-        <span class="hidden sm:inline text-lg font-semibold tracking-tight">All-In Store</span>
       </a>
     </div>
 
     <div class="navbar-center hidden lg:flex">
-      <ul class="menu menu-horizontal px-1 gap-2">
+      <ul class="menu menu-horizontal px-1 gap-2 text-base-content">
         <li>
           <a routerLink="/products" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Productos</a>
         </li>
@@ -31,7 +30,7 @@
     </div>
 
     <div class="navbar-end hidden lg:flex">
-      <label class="input input-bordered flex items-center gap-2 w-80">
+      <label class="input input-bordered flex items-center gap-2 w-80 bg-white/80 border-[#4C8FBB]/30">
         <lucide-icon [img]="icons.Search" class="w-4 h-4 text-base-content/70" />
         <input
           type="text"
@@ -49,13 +48,13 @@
   </div>
 
   @if (menuOpen()) {
-    <div class="lg:hidden border-t border-base-200">
+    <div class="lg:hidden border-t border-[#4C8FBB]/30 bg-white/70">
       <div class="px-4 py-4 flex flex-col gap-4">
         <nav class="flex flex-col gap-2">
           <a class="btn btn-ghost justify-start" routerLink="/products" (click)="closeMenu()">Productos</a>
           <a class="btn btn-ghost justify-start" routerLink="/faq" (click)="closeMenu()">FAQ</a>
         </nav>
-        <label class="input input-bordered flex items-center gap-2 w-full">
+        <label class="input input-bordered flex items-center gap-2 w-full bg-white/80 border-[#4C8FBB]/30">
           <lucide-icon [img]="icons.Search" class="w-4 h-4 text-base-content/70" />
           <input
             type="text"
