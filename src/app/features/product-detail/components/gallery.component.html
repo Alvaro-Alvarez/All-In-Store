@@ -1,5 +1,11 @@
 ﻿<div class="space-y-3">
-  <div class="relative bg-base-200/60 rounded-xl h-96 flex items-center justify-center">
+  <div
+    class="relative bg-base-200/60 rounded-xl h-96 flex items-center justify-center cursor-pointer"
+    role="button"
+    tabindex="0"
+    (click)="openLightbox()"
+    (keyup.enter)="openLightbox()"
+  >
     <img
       [src]="currentImage()"
       alt="Imagen del producto"
@@ -8,7 +14,7 @@
     <button
       class="btn btn-circle btn-sm absolute left-3"
       type="button"
-      (click)="prev()"
+      (click)="$event.stopPropagation(); prev()"
       [disabled]="images.length <= 1 || index() === 0"
       aria-label="Imagen anterior"
     >
@@ -17,7 +23,7 @@
     <button
       class="btn btn-circle btn-sm absolute right-3"
       type="button"
-      (click)="next()"
+      (click)="$event.stopPropagation(); next()"
       [disabled]="images.length <= 1 || index() === images.length - 1"
       aria-label="Imagen siguiente"
     >
@@ -27,7 +33,7 @@
   <div class="flex gap-2 overflow-x-auto">
     @for (image of images; track $index) {
       <button
-        class="h-16 w-16 rounded-lg border border-base-200 bg-base-100 flex-shrink-0"
+        class="h-16 w-16 rounded-lg border border-base-200 bg-base-100 flex-shrink-0 cursor-pointer hover:border-primary transition"
         type="button"
         [class.border-primary]="$index === index()"
         (click)="select($index)"
@@ -38,3 +44,27 @@
     }
   </div>
 </div>
+
+@if (lightboxOpen()) {
+  <div
+    class="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+    role="dialog"
+    aria-modal="true"
+    (click)="closeLightbox()"
+  >
+    <button
+      type="button"
+      class="absolute top-4 right-4 btn btn-circle btn-sm"
+      aria-label="Cerrar"
+      (click)="closeLightbox()"
+    >
+      X
+    </button>
+    <img
+      [src]="currentImage()"
+      alt="Imagen ampliada"
+      class="max-h-[85vh] max-w-[90vw] object-contain"
+      (click)="$event.stopPropagation()"
+    />
+  </div>
+}

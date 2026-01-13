@@ -15,6 +15,7 @@ export class GalleryComponent {
   readonly index = signal(0);
 
   readonly currentImage = computed(() => this.images[this.index()] ?? '');
+  readonly lightboxOpen = signal(false);
 
   prev(): void {
     if (this.index() > 0) {
@@ -32,5 +33,16 @@ export class GalleryComponent {
     if (index >= 0 && index < this.images.length) {
       this.index.set(index);
     }
+  }
+
+  openLightbox(): void {
+    if (!this.currentImage()) {
+      return;
+    }
+    this.lightboxOpen.set(true);
+  }
+
+  closeLightbox(): void {
+    this.lightboxOpen.set(false);
   }
 }

@@ -5,8 +5,13 @@
     (click)="viewAll.emit()"
   >
     <div class="card-body">
-      <h3 class="card-title text-primary">Ver todos</h3>
-      <p class="text-sm text-base-content/70">Explora el catalogo completo.</p>
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h3 class="card-title text-primary">Ver todos</h3>
+          <p class="text-sm text-base-content/70">Explora el catalogo completo.</p>
+        </div>
+        <lucide-icon [img]="getIcon('LayoutGrid')" class="w-6 h-6 text-primary" />
+      </div>
     </div>
   </button>
   @for (category of categories; track category.id) {
@@ -16,8 +21,13 @@
       (click)="selectCategory.emit(category)"
     >
       <div class="card-body">
-        <h3 class="card-title">{{ category.name }}</h3>
-        <p class="text-sm text-base-content/70">Ver subcategorias</p>
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h3 class="card-title">{{ category.name }}</h3>
+            <p class="text-sm text-base-content/70">Ver subcategorias</p>
+          </div>
+          <lucide-icon [img]="getIcon(category.icon_name)" class="w-6 h-6 text-primary" />
+        </div>
       </div>
     </button>
   }
