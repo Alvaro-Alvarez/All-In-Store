@@ -20,6 +20,12 @@ body {
   background: radial-gradient(circle at top, #e3f1fb 0%, #f5f9fd 35%, #eff7f1 100%);
 }
 
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 [data-theme="light"] {
   --b1: 0 0% 100%;
   --b2: 210 25% 96%;
