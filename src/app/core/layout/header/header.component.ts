@@ -5,6 +5,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs/operators';
 import { LucideAngularModule, Menu, Search, X } from 'lucide-angular';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../../../environments/environment';
+import { buildWhatsAppLink } from '../../utils/whatsapp.util';
 
 @Component({
   selector: 'app-header',
@@ -22,6 +24,8 @@ export class HeaderComponent {
   readonly icons = { Menu, Search, X };
   readonly menuOpen = signal(false);
   readonly searchControl = new FormControl('', { nonNullable: true });
+  readonly whatsappLink = buildWhatsAppLink(environment.whatsappMessageGeneral);
+  readonly instagramLink = environment.instagramUrl;
 
   constructor(
     private readonly router: Router,

@@ -7,6 +7,7 @@ import { ProductListItem } from '../../core/models/product.model';
 import { ProductImage } from '../../core/models/product-image.model';
 import { resolvePublicImage } from '../../core/utils/image.util';
 import { buildWhatsAppLink } from '../../core/utils/whatsapp.util';
+import { environment } from '../../../environments/environment';
 import { BreadcrumbsComponent, BreadcrumbItem } from '../../shared/components/breadcrumbs/breadcrumbs.component';
 import { ToastComponent } from '../../shared/components/toast/toast.component';
 import { GalleryComponent } from './components/gallery.component';
@@ -88,7 +89,7 @@ export class ProductDetailPageComponent {
       return '#';
     }
     const price = product.currency ? `${product.currency} ${product.price}` : `${product.price}`;
-    const message = `Hola! Me interesa el producto: ${product.title}. Precio: ${price}. Me pasas info de pago y envio?`;
+    const message = `${environment.whatsappMessageProduct}: ${product.title}. Precio: ${price}.`;
     return buildWhatsAppLink(message);
   });
 

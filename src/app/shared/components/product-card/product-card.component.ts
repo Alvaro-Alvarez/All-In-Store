@@ -5,6 +5,7 @@ import { LucideAngularModule, Eye, MessageCircle } from 'lucide-angular';
 import { ProductListItem } from '../../../core/models/product.model';
 import { resolvePublicImage } from '../../../core/utils/image.util';
 import { buildWhatsAppLink } from '../../../core/utils/whatsapp.util';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-product-card',
@@ -21,7 +22,7 @@ export class ProductCardComponent {
     const price = this.product.currency
       ? `${this.product.currency} ${this.product.price}`
       : `${this.product.price}`;
-    const message = `Hola! Me interesa el producto: ${this.product.title}. Precio: ${price}. Me pasas info de pago y envio?`;
+    const message = `${environment.whatsappMessageProduct}: ${this.product.title}. Precio: ${price}.`;
     return buildWhatsAppLink(message);
   });
 

@@ -5,5 +5,27 @@
       <a routerLink="/products" class="link link-hover">Productos</a>
       <a routerLink="/faq" class="link link-hover">FAQ</a>
     </div>
+    <div class="hidden lg:flex items-center gap-3">
+      <a
+        class="cursor-pointer tooltip-pill"
+        [href]="whatsappLink"
+        target="_blank"
+        rel="noopener"
+        aria-label="WhatsApp"
+        data-tooltip="WhatsApp"
+      >
+        <img src="/images/wp.png" alt="WhatsApp" class="h-8 w-8" />
+      </a>
+      <a
+        class="cursor-pointer tooltip-pill"
+        [href]="instagramLink"
+        target="_blank"
+        rel="noopener"
+        aria-label="Instagram"
+        data-tooltip="Instagram"
+      >
+        <img src="/images/ig.png" alt="Instagram" class="h-8 w-8" />
+      </a>
+    </div>
   </div>
 </footer>

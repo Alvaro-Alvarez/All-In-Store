@@ -1,5 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { environment } from '../../../../environments/environment';
+import { buildWhatsAppLink } from '../../utils/whatsapp.util';
 
 @Component({
   selector: 'app-footer',
@@ -10,4 +12,6 @@ import { RouterLink } from '@angular/router';
 })
 export class FooterComponent {
   readonly year = new Date().getFullYear();
+  readonly whatsappLink = buildWhatsAppLink(environment.whatsappMessageGeneral);
+  readonly instagramLink = environment.instagramUrl;
 }

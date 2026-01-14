@@ -44,6 +44,30 @@
         </button>
       </label>
     </div>
+    <div class="navbar-end flex lg:hidden">
+      <div class="flex items-center gap-3">
+        <a
+          class="cursor-pointer tooltip-pill"
+          [href]="whatsappLink"
+          target="_blank"
+          rel="noopener"
+          aria-label="WhatsApp"
+          data-tooltip="WhatsApp"
+        >
+          <img src="/images/wp.png" alt="WhatsApp" class="h-7 w-7" />
+        </a>
+        <a
+          class="cursor-pointer tooltip-pill"
+          [href]="instagramLink"
+          target="_blank"
+          rel="noopener"
+          aria-label="Instagram"
+          data-tooltip="Instagram"
+        >
+          <img src="/images/ig.png" alt="Instagram" class="h-7 w-7" />
+        </a>
+      </div>
+    </div>
   </div>
 
   @if (menuOpen()) {

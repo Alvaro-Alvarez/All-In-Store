@@ -175,3 +175,54 @@ input[type='number'] {
   display: block;
   margin-bottom: 1.5rem;
 }
+
+.tooltip-pill {
+  position: relative;
+}
+
+.tooltip-pill::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translate(-50%, -6px);
+  background: #1f2f3c;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  line-height: 1.2;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 20;
+}
+
+.tooltip-pill::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translate(-50%, 2px);
+  width: 8px;
+  height: 8px;
+  background: #1f2f3c;
+  opacity: 0;
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 19;
+}
+
+.tooltip-pill:hover::after,
+.tooltip-pill:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, -10px);
+}
+
+.tooltip-pill:hover::before,
+.tooltip-pill:focus-visible::before {
+  opacity: 1;
+  transform: translate(-50%, -2px);
+}
