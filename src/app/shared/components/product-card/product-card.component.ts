@@ -1,5 +1,5 @@
-﻿import { CommonModule } from '@angular/common';
-import { Component, Input, computed } from '@angular/core';
+﻿import { CommonModule, formatNumber } from '@angular/common';
+import { Component, Input, computed, Inject, LOCALE_ID } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { LucideAngularModule, Eye, MessageCircle } from 'lucide-angular';
 import { ProductListItem } from '../../../core/models/product.model';
@@ -19,9 +19,10 @@ export class ProductCardComponent {
   readonly icons = { Eye, MessageCircle };
 
   readonly whatsappLink = computed(() => {
+    const formattedPrice = formatNumber(this.product.price, this.locale, '1.0-0');
     const price = this.product.currency
-      ? `${this.product.currency} ${this.product.price}`
-      : `${this.product.price}`;
+      ? `${this.product.currency} ${formattedPrice}`
+      : formattedPrice;
     const message = `${environment.whatsappMessageProduct}: ${this.product.title}. Precio: ${price}.`;
     return buildWhatsAppLink(message);
   });
@@ -29,6 +30,7 @@ export class ProductCardComponent {
   readonly imageUrl = computed(() => resolvePublicImage(this.product.main_image_path));
 
   constructor(
+    @Inject(LOCALE_ID) private readonly locale: string,
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) {}

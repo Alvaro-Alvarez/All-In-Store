@@ -1,5 +1,5 @@
-﻿import { CommonModule } from '@angular/common';
-import { Component, computed, signal } from '@angular/core';
+﻿import { CommonModule, formatNumber } from '@angular/common';
+import { Component, computed, signal, Inject, LOCALE_ID } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { LucideAngularModule, Share2, MessageCircle } from 'lucide-angular';
 import { CatalogService } from '../../core/services/catalog.service';
@@ -88,12 +88,14 @@ export class ProductDetailPageComponent {
     if (!product) {
       return '#';
     }
-    const price = product.currency ? `${product.currency} ${product.price}` : `${product.price}`;
+    const formattedPrice = formatNumber(product.price, this.locale, '1.0-0');
+    const price = product.currency ? `${product.currency} ${formattedPrice}` : formattedPrice;
     const message = `${environment.whatsappMessageProduct}: ${product.title}. Precio: ${price}.`;
     return buildWhatsAppLink(message);
   });
 
   constructor(
+    @Inject(LOCALE_ID) private readonly locale: string,
     private readonly catalog: CatalogService,
     private readonly route: ActivatedRoute,
     private readonly router: Router
