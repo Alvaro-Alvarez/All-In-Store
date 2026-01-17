@@ -28,7 +28,11 @@
     </div>
     <div class="flex items-center justify-between">
       <span class="text-lg font-semibold text-primary">
-        {{ product.currency || '' }} {{ product.price | number: '1.0-0' }}
+        @if (displayPrice() !== null) {
+          ARS {{ displayPrice() | number: '1.0-0' }}
+        } @else {
+          ARS ...
+        }
       </span>
       <div class="flex gap-2">
         <a

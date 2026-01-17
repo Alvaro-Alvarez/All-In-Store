@@ -1,6 +1,6 @@
 ﻿import { CommonModule, formatNumber } from '@angular/common';
 import { Component, computed, signal, Inject, LOCALE_ID } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, UrlTree } from '@angular/router';
 import { LucideAngularModule, Share2, MessageCircle } from 'lucide-angular';
 import { CatalogService } from '../../core/services/catalog.service';
 import { ProductListItem } from '../../core/models/product.model';
@@ -8,6 +8,7 @@ import { ProductImage } from '../../core/models/product-image.model';
 import { resolvePublicImage } from '../../core/utils/image.util';
 import { buildWhatsAppLink } from '../../core/utils/whatsapp.util';
 import { environment } from '../../../environments/environment';
+import { PricingService } from '../../core/services/pricing.service';
 import { BreadcrumbsComponent, BreadcrumbItem } from '../../shared/components/breadcrumbs/breadcrumbs.component';
 import { ToastComponent } from '../../shared/components/toast/toast.component';
 import { GalleryComponent } from './components/gallery.component';
@@ -31,6 +32,7 @@ export class ProductDetailPageComponent {
 
   readonly product = signal<ProductListItem | null>(null);
   readonly images = signal<string[]>([]);
+  readonly priceArs = signal<number | null>(null);
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
   readonly toastVisible = signal(false);
@@ -42,9 +44,7 @@ export class ProductDetailPageComponent {
     const items: BreadcrumbItem[] = [
       {
         label: 'Productos',
-        url: this.router.serializeUrl(
-          this.router.createUrlTree(['/products'], { queryParams: params })
-        )
+        url: this.router.createUrlTree(['/products'], { queryParams: params })
       }
     ];
 
@@ -55,27 +55,23 @@ export class ProductDetailPageComponent {
     if (product.category_id && product.category_name) {
       items.push({
         label: product.category_name,
-        url: this.router.serializeUrl(
-          this.router.createUrlTree(['/products'], {
-            queryParams: { ...params, cat: product.category_id, sub: null, page: null }
-          })
-        )
+        url: this.router.createUrlTree(['/products'], {
+          queryParams: { ...params, cat: product.category_id, sub: null, page: null }
+        })
       });
     }
 
     if (product.subcategory_id && product.subcategory_name) {
       items.push({
         label: product.subcategory_name,
-        url: this.router.serializeUrl(
-          this.router.createUrlTree(['/products'], {
-            queryParams: {
-              ...params,
-              cat: product.category_id ?? null,
-              sub: product.subcategory_id,
-              page: null
-            }
-          })
-        )
+        url: this.router.createUrlTree(['/products'], {
+          queryParams: {
+            ...params,
+            cat: product.category_id ?? null,
+            sub: product.subcategory_id,
+            page: null
+          }
+        })
       });
     }
 
@@ -88,14 +84,15 @@ export class ProductDetailPageComponent {
     if (!product) {
       return '#';
     }
-    const formattedPrice = formatNumber(product.price, this.locale, '1.0-0');
-    const price = product.currency ? `${product.currency} ${formattedPrice}` : formattedPrice;
-    const message = `${environment.whatsappMessageProduct}: ${product.title}. Precio: ${price}.`;
+    const price = this.priceArs();
+    const formattedPrice = price === null ? '...' : formatNumber(price, this.locale, '1.0-0');
+    const message = `${environment.whatsappMessageProduct}: ${product.title}. Precio: ARS ${formattedPrice}: ${window.location.href}`;
     return buildWhatsAppLink(message);
   });
 
   constructor(
     @Inject(LOCALE_ID) private readonly locale: string,
+    private readonly pricing: PricingService,
     private readonly catalog: CatalogService,
     private readonly route: ActivatedRoute,
     private readonly router: Router
@@ -103,10 +100,12 @@ export class ProductDetailPageComponent {
     this.loadProduct();
   }
 
-  get backLink(): string {
-    return this.router.serializeUrl(
-      this.router.createUrlTree(['/products'], { queryParams: this.route.snapshot.queryParams })
-    );
+  private priceRequestId = 0;
+
+  get backLink(): UrlTree {
+    return this.router.createUrlTree(['/products'], {
+      queryParams: this.route.snapshot.queryParams
+    });
   }
 
   async loadProduct(): Promise<void> {
@@ -135,10 +134,26 @@ export class ProductDetailPageComponent {
 
       this.product.set(product);
       this.images.set(this.mergeImages(product.main_image_path, images));
+      await this.updatePrice(product);
     } catch {
       this.error.set('No pudimos cargar este producto. Intenta nuevamente.');
     } finally {
       this.loading.set(false);
+    }
+  }
+
+  private async updatePrice(product: ProductListItem): Promise<void> {
+    const requestId = ++this.priceRequestId;
+    this.priceArs.set(null);
+    try {
+      const price = await this.pricing.getFinalPriceArs(product);
+      if (requestId === this.priceRequestId) {
+        this.priceArs.set(price);
+      }
+    } catch {
+      if (requestId === this.priceRequestId) {
+        this.priceArs.set(null);
+      }
     }
   }
 

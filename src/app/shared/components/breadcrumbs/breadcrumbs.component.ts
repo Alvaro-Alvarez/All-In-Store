@@ -1,10 +1,10 @@
 ﻿import { Component, Input } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, UrlTree } from '@angular/router';
 import { LucideAngularModule, ChevronRight } from 'lucide-angular';
 
 export interface BreadcrumbItem {
   label: string;
-  url?: string | null;
+  url?: UrlTree | string | null;
 }
 
 @Component({

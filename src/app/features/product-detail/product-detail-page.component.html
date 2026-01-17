@@ -35,7 +35,11 @@
         </div>
 
         <div class="text-3xl font-semibold text-primary">
-          {{ product()?.currency || '' }} {{ product()?.price | number: '1.0-0' }}
+          @if (priceArs() !== null) {
+            ARS {{ priceArs() | number: '1.0-0' }}
+          } @else {
+            ARS ...
+          }
         </div>
 
         <div class="grid grid-cols-1 gap-3 text-sm">

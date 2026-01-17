@@ -73,7 +73,7 @@ export class ProductsPageComponent {
     const items: BreadcrumbItem[] = [
       {
         label: 'Productos',
-        url: this.router.serializeUrl(this.router.createUrlTree(['/products']))
+        url: this.router.createUrlTree(['/products'])
       }
     ];
 
@@ -86,11 +86,9 @@ export class ProductsPageComponent {
         label: category.name,
         url:
           subcategory != null || viewMode === 'products'
-            ? this.router.serializeUrl(
-                this.router.createUrlTree(['/products'], {
-                  queryParams: { cat: category.id }
-                })
-              )
+            ? this.router.createUrlTree(['/products'], {
+                queryParams: { cat: category.id }
+              })
             : null
       });
     }
