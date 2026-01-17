@@ -6,6 +6,7 @@ import { Category } from '../../core/models/category.model';
 import { Subcategory } from '../../core/models/subcategory.model';
 import { ProductListItem } from '../../core/models/product.model';
 import { CatalogService, ProductSort } from '../../core/services/catalog.service';
+import { PricingService } from '../../core/services/pricing.service';
 import { BreadcrumbsComponent, BreadcrumbItem } from '../../shared/components/breadcrumbs/breadcrumbs.component';
 import { PaginatorComponent } from '../../shared/components/paginator/paginator.component';
 import { CategoryCardsComponent } from './components/category-cards.component';
@@ -109,6 +110,7 @@ export class ProductsPageComponent {
 
   constructor(
     private readonly catalog: CatalogService,
+    private readonly pricing: PricingService,
     private readonly route: ActivatedRoute,
     private readonly router: Router
   ) {
@@ -262,25 +264,71 @@ export class ProductsPageComponent {
     this.productsError.set(null);
 
     try {
+      const useClientPrice =
+        filters.minPrice != null ||
+        filters.maxPrice != null ||
+        filters.sort === 'cheap' ||
+        filters.sort === 'expensive';
+      const fetchPageSize = useClientPrice ? 500 : 20;
+
       const response = await this.catalog.getProducts({
-        page: filters.page,
-        pageSize: 20,
+        page: useClientPrice ? 1 : filters.page,
+        pageSize: fetchPageSize,
         categoryId: filters.categoryId ?? undefined,
         subcategoryId: filters.subcategoryId ?? undefined,
         query: filters.query || undefined,
-        minPrice: filters.minPrice ?? undefined,
-        maxPrice: filters.maxPrice ?? undefined,
+        minPrice: useClientPrice ? undefined : filters.minPrice ?? undefined,
+        maxPrice: useClientPrice ? undefined : filters.maxPrice ?? undefined,
         isImported: filters.isImported ?? undefined,
         hasMinPurchase: filters.hasMinPurchase ?? undefined,
-        sort: filters.sort
+        sort: useClientPrice ? 'newest' : filters.sort
       });
 
       if (requestId !== this.productsRequestId) {
         return;
       }
 
-      this.products.set(response.items);
-      this.totalCount.set(response.totalCount);
+      if (!useClientPrice) {
+        this.products.set(response.items);
+        this.totalCount.set(response.totalCount);
+        return;
+      }
+
+      const priceMap = await this.pricing.getFinalPriceArsBatch(response.items);
+      if (requestId !== this.productsRequestId) {
+        return;
+      }
+
+      let filtered = response.items.filter((item) => {
+        const price = priceMap.get(item.id);
+        if (price == null) {
+          return false;
+        }
+        if (filters.minPrice != null && price < filters.minPrice) {
+          return false;
+        }
+        if (filters.maxPrice != null && price > filters.maxPrice) {
+          return false;
+        }
+        return true;
+      });
+
+      if (filters.sort === 'cheap') {
+        filtered = filtered.sort(
+          (a, b) => (priceMap.get(a.id) ?? 0) - (priceMap.get(b.id) ?? 0)
+        );
+      } else if (filters.sort === 'expensive') {
+        filtered = filtered.sort(
+          (a, b) => (priceMap.get(b.id) ?? 0) - (priceMap.get(a.id) ?? 0)
+        );
+      }
+
+      const pageSize = 20;
+      const start = (filters.page - 1) * pageSize;
+      const paged = filtered.slice(start, start + pageSize);
+
+      this.products.set(paged);
+      this.totalCount.set(filtered.length);
     } catch {
       if (requestId !== this.productsRequestId) {
         return;

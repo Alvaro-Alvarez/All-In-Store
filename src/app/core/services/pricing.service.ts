@@ -28,18 +28,20 @@ export class PricingService {
 
   async getFinalPriceArs(product: ProductListItem): Promise<number> {
     const currency = (product.currency ?? 'ARS').toUpperCase();
-    let basePrice = product.price;
+    const venta = currency === 'USD' ? await this.getBlueRateVenta() : null;
+    return this.calculateFinalPrice(product, venta);
+  }
 
-    if (currency === 'USD') {
-      const venta = await this.getBlueRateVenta();
-      basePrice = basePrice * venta;
-    }
-
-    if (product.is_imported) {
-      basePrice += this.getImportCostsTotal();
-    }
-
-    return this.roundUpToTens(basePrice);
+  async getFinalPriceArsBatch(products: ProductListItem[]): Promise<Map<number, number>> {
+    const needsUsd = products.some(
+      (product) => (product.currency ?? 'ARS').toUpperCase() === 'USD'
+    );
+    const venta = needsUsd ? await this.getBlueRateVenta() : null;
+    const entries = products.map((product) => [
+      product.id,
+      this.calculateFinalPrice(product, venta)
+    ] as const);
+    return new Map(entries);
   }
 
   private getImportCostsTotal(): number {
@@ -48,6 +50,21 @@ export class PricingService {
 
   private roundUpToTens(value: number): number {
     return Math.ceil(value / 10) * 10;
+  }
+
+  private calculateFinalPrice(product: ProductListItem, venta: number | null): number {
+    const currency = (product.currency ?? 'ARS').toUpperCase();
+    let basePrice = product.price;
+
+    if (currency === 'USD') {
+      basePrice = basePrice * (venta ?? 0);
+    }
+
+    if (product.is_imported) {
+      basePrice += this.getImportCostsTotal();
+    }
+
+    return this.roundUpToTens(basePrice);
   }
 
   private async getBlueRateVenta(): Promise<number> {
