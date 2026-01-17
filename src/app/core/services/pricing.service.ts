@@ -44,8 +44,11 @@ export class PricingService {
     return new Map(entries);
   }
 
-  private getImportCostsTotal(): number {
-    return IMPORT_COSTS.reduce((total, item) => total + item.amount, 0);
+  private getImportCostsTotal(subcategorySlug?: string | null): number {
+    const slug = subcategorySlug?.toLowerCase() ?? '';
+    const costs =
+      (slug && IMPORT_COSTS.bySubcategorySlug[slug]) || IMPORT_COSTS.default;
+    return costs.reduce((total, item) => total + item.amount, 0);
   }
 
   private roundUpToTens(value: number): number {
@@ -61,7 +64,7 @@ export class PricingService {
     }
 
     if (product.is_imported) {
-      basePrice += this.getImportCostsTotal();
+      basePrice += this.getImportCostsTotal(product.subcategory_slug);
     }
 
     return this.roundUpToTens(basePrice);

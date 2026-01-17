@@ -61,7 +61,7 @@ export class CatalogService {
     const from = (page - 1) * pageSize;
     const to = from + pageSize - 1;
 
-    type RelatedName = { name: string };
+    type RelatedName = { name: string; slug?: string | null };
     type RelatedMaybeArray = RelatedName | RelatedName[] | null;
     type ProductRow = ProductListItem & {
       categories?: RelatedMaybeArray;
@@ -73,7 +73,7 @@ export class CatalogService {
       .getClient()
       .from('products')
       .select(
-        'id,title,description,price,currency,is_imported,min_purchase_qty,main_image_path,created_at,updated_at,is_active,category_id,subcategory_id,brand_id, categories:categories(name), subcategories:subcategories(name), brands:brands(name)',
+        'id,title,description,price,currency,is_imported,min_purchase_qty,main_image_path,created_at,updated_at,is_active,category_id,subcategory_id,brand_id, categories:categories(name), subcategories:subcategories(name,slug), brands:brands(name)',
         { count: 'exact' }
       )
       .eq('is_active', true);
@@ -131,6 +131,7 @@ export class CatalogService {
         ...row,
         category_name: this.extractName(row.categories),
         subcategory_name: this.extractName(row.subcategories),
+        subcategory_slug: this.extractSlug(row.subcategories),
         brand_name: this.extractName(row.brands)
       };
     });
@@ -142,7 +143,7 @@ export class CatalogService {
   }
 
   async getProductById(id: number): Promise<ProductListItem | null> {
-    type RelatedName = { name: string };
+    type RelatedName = { name: string; slug?: string | null };
     type RelatedMaybeArray = RelatedName | RelatedName[] | null;
     type ProductRow = ProductListItem & {
       categories?: RelatedMaybeArray;
@@ -154,7 +155,7 @@ export class CatalogService {
       .getClient()
       .from('products')
       .select(
-        'id,title,description,price,currency,is_imported,min_purchase_qty,main_image_path,created_at,updated_at,is_active,category_id,subcategory_id,brand_id, categories:categories(name), subcategories:subcategories(name), brands:brands(name)'
+        'id,title,description,price,currency,is_imported,min_purchase_qty,main_image_path,created_at,updated_at,is_active,category_id,subcategory_id,brand_id, categories:categories(name), subcategories:subcategories(name,slug), brands:brands(name)'
       )
       .eq('id', id)
       .eq('is_active', true)
@@ -173,6 +174,7 @@ export class CatalogService {
       ...data,
       category_name: this.extractName(row.categories),
       subcategory_name: this.extractName(row.subcategories),
+      subcategory_slug: this.extractSlug(row.subcategories),
       brand_name: this.extractName(row.brands)
     };
   }
@@ -185,6 +187,16 @@ export class CatalogService {
       return value[0]?.name ?? null;
     }
     return value.name ?? null;
+  }
+
+  private extractSlug(value: { slug?: string | null } | { slug?: string | null }[] | null | undefined): string | null {
+    if (!value) {
+      return null;
+    }
+    if (Array.isArray(value)) {
+      return value[0]?.slug ?? null;
+    }
+    return value.slug ?? null;
   }
 
   async getProductImages(productId: number): Promise<ProductImage[]> {

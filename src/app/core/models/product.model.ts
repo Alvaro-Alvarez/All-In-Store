@@ -18,5 +18,6 @@
 export interface ProductListItem extends Product {
   category_name?: string | null;
   subcategory_name?: string | null;
+  subcategory_slug?: string | null;
   brand_name?: string | null;
 }
