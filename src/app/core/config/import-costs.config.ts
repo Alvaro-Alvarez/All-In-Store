@@ -18,7 +18,7 @@ export const IMPORT_COSTS: ImportCostsConfig = {
       { label: 'Costo de envio', amount: 35000 },
       { label: 'Ext', amount: 100000 }
     ],
-    consolas_videojuego: [
+    'consolas-videojuego': [
       { label: 'Costo de envio', amount: 60000 },
       { label: 'Ext', amount: 100000 }
     ]
