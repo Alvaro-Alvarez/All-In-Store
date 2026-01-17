@@ -17,3 +17,6 @@
   font-weight: 600;
   cursor: default;
 }
+.product-description {
+  white-space: pre-line;
+}
